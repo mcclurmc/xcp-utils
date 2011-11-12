@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Copyright 2011 Mike McClurg <mike.mcclurg@citrix.com>
+# This software is licensed under the LGPLv2.1. Please see the LICENSE file for
+# details.
+
 function usage () {
     echo "Usage:"
     echo "   `basename $0` -h <xenserver host> -g <guest vm name-label>"
