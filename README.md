@@ -5,3 +5,4 @@ This is a small collection of useful scripts for managing
 the tools provided:
 
 * vmvnc: A VNC viewer helper
+* vmip: Gets IP address(es) of running VMs
