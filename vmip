@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Copyright 2011 Mike McClurg <mike.mcclurg@citrix.com>
+# This software is licensed under the LGPLv2.1. Please see the LICENSE file for
+# details.
+
+set -e
+
+function usage () {
+    echo "Usage:"
+	echo "   `basename $0` -h <xenserver host> -g <guest vm name-label>"
+    echo "   `basename $0` -h <xenserver host> -u <guest vm uuid>"
+    exit 1
+}
+
+while getopts "h:g:u:" option
+do
+    case $option in
+        h ) xcp=${OPTARG} ;;
+        g ) vm=${OPTARG} ;;
+        u ) uu=${OPTARG} ;;
+        * ) usage
+    esac
+done
+
+if [ -z ${xcp} ]; then
+    usage
+fi
+
+if [ -z ${uu} ] && [ -z ${vm} ]; then
+    usage
+fi
+
+if [ -n "${uu}" ]; then
+	uuid=${uu}
+elif [ -n "${vm}" ]; then
+	uuid=$(ssh root@${xcp} xe vm-list name-label=\"${vm}\" --minimal)
+fi
+
+ssh root@${xcp} xe vm-param-get uuid=${uuid} param-name=networks --minimal
